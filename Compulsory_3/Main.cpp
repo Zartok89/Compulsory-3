@@ -88,13 +88,13 @@ int main()
 	cout << "--AFTER DELETION OF VERTEX-- " << endl;
 	Graph->PrintGraph();
 	COUTSPACE
-	Graph->InsertRandomNode(50);
-	Graph->InsertRandomNode(10);
-	Graph->InsertRandomNode(20);
-	Graph->InsertRandomNode(200);
-	Graph->InsertRandomNode(65);
+	//Graph->InsertRandomVertex(50);
+	//Graph->InsertRandomVertex(10);
+	//Graph->InsertRandomVertex(20);
+	//Graph->InsertRandomVertex(200);
+	//Graph->InsertRandomVertex(65);
 	COUTSPACE
-	Graph->InsertSpesificNode(3);
+	Graph->InsertSpesificVertex(3);
 	COUTSPACE
 	cout << "--AFTER DELETION OF EDGE-- " << endl;
 	Graph->PrintGraph();
@@ -110,7 +110,20 @@ int main()
 	cout << "--Check size of the Graph--" << endl;
 	Graph->GetSize();
 	COUTSPACE
-	Graph->DepthFirstSearch();
+	Graph->GetAdjacentVerticies(1);
+	COUTSPACE
+	cout << "Depth First Traversal: " << " ";
+	Graph->DepthFirstSearch(3);
+	COUTSPACE
+	cout << "Bredth First Traversal: " << " ";
+	Graph->BreadthFirstSearch(3);
+	COUTSPACE
+	Graph->GetVertexInformation(3);
+	COUTSPACE
+	Graph->GetVerticiesInGraph();
+	COUTSPACE
+	Graph->GetEdgesInGraph();
+	COUTSPACE
 }
 
 //Printing out the tree

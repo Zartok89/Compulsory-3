@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <ostream>
+#include <queue>
 #include <random>
 #include <string>
 
@@ -12,32 +13,32 @@ GraphLibrary::GraphLibrary(int AmountOfVerticies)
 	AdjacencyList.resize(AmountOfVerticies);
 }
 
-void GraphLibrary::InsertRandomNode(int MaximumVertexValueToInsert)
+void GraphLibrary::InsertRandomVertex(int MaximumVertexValueToInsert)
 {
 	// Generate a random number between 0 and the number of verticies in the graph
 	int RandomNumber = rand() % NumberOfVerticies;
 
 	// Insert the random number into the adjacency list
 	AdjacencyList[RandomNumber].push_back(RandomNumberGenerator(0, MaximumVertexValueToInsert));
-	cout << "Random node " + to_string(RandomNumber) + " has been inserted" << endl;
+	cout << "Random vertex " + to_string(RandomNumber) + " has been inserted" << endl;
 }
 
-void GraphLibrary::InsertSpesificNode(int VertexToInsert)
+void GraphLibrary::InsertSpesificVertex(int VertexToInsert)
 {
-	// Insert the node into the adjacency list
+	// Insert the vertex into the adjacency list
 	AdjacencyList[VertexToInsert].push_back(VertexToInsert);
-	cout << "Node " + to_string(VertexToInsert) + " has been inserted" << endl;
+	cout << "Vertex " + to_string(VertexToInsert) + " has been inserted" << endl;
 }
 
-void GraphLibrary::DeleteVertex(int VertexNodeToDelete)
+void GraphLibrary::DeleteVertex(int VertexToDelete)
 {
 	//Delete a spesific vertex from the adjacency list
 	for (int i = 0; i < AdjacencyList.size(); i++)
 	{
-		if (VertexNodeToDelete == i)
+		if (VertexToDelete == i)
 		{
 			AdjacencyList.erase(AdjacencyList.begin() + i);
-			cout << "[Vertex " + to_string(VertexNodeToDelete) + " has been deleted]" << endl;
+			cout << "[Vertex " + to_string(VertexToDelete) + " has been deleted]" << endl;
 		}
 	}
 }
@@ -87,38 +88,90 @@ void GraphLibrary::DeleteEdge(int Source, int Destination)
 	cout << "Edge between " + to_string(Source) + " and " + to_string(Destination) + " has been deleted" << endl;
 }
 
-void GraphLibrary::DepthFirstSearch()
+void GraphLibrary::DepthFirstSearch(int Source)
 {
-	// Create a vector to keep track of visited verticies
-	vector<bool> VisitedVerticies(NumberOfVerticies, false);
+	// Mark the current vertex as visited
+	VertexVisited[Source] = true;
+	cout << Source << " ";
 
-	// Create a stack to keep track of verticies to visit
-	vector<int> Stack;
-
-	// Push the first vertex onto the stack
-	Stack.push_back(0);
-
-	// While the stack is not empty
-	while (!Stack.empty())
+	vector<int>::iterator i;
+	for (i = AdjacencyList[Source].begin(); i != AdjacencyList[Source].end(); ++i)
 	{
-		// Pop the top vertex from the stack
-		int CurrentVertex = Stack.back();
-		Stack.pop_back();
-
-		// If the vertex has not been visited
-		if (!VisitedVerticies[CurrentVertex])
+		if (!VertexVisited[*i])
 		{
-			// Mark the vertex as visited
-			VisitedVerticies[CurrentVertex] = true;
+			DepthFirstSearch(*i);
+		}
+	}
+}
 
-			// Print the vertex
-			cout << CurrentVertex << " ";
+void GraphLibrary::BreadthFirstSearch(int Source)
+{
+	// Mark all the vertices as not visited
+	vector<bool> VisitedVerticies;
+	VisitedVerticies.resize(NumberOfVerticies, false);
 
-			// Push all adjacent verticies onto the stack
-			for (int i = 0; i < AdjacencyList[CurrentVertex].size(); i++)
+	// Create a queue for BFS
+	list<int> Queue;
+
+	// Marking the current vertex as visited and enqueue it
+	VisitedVerticies[Source] = true;
+	Queue.push_back(Source);
+
+	while (!Queue.empty())
+	{
+		// Dequeue a vertex from queue and print it
+		Source = Queue.front();
+		cout << Source << " ";
+		Queue.pop_front();
+
+		// Get all adjacent vertices of the dequeued vertex s
+		// If a adjacent has not been visited, then mark it visited and enqueue it
+		for (int Adjacency : AdjacencyList[Source])
+		{
+			if (!VisitedVerticies[Adjacency])
 			{
-				Stack.push_back(AdjacencyList[CurrentVertex][i]);
+				VisitedVerticies[Adjacency] = true;
+				Queue.push_back(Adjacency);
 			}
+		}
+	}
+}
+
+void GraphLibrary::GetVertexInformation(int Source)
+{
+	// Get the vertex information
+	cout << "Vertex " + to_string(Source) + " information: " << GetAdjacentVerticies(Source) << endl;
+}
+
+int GraphLibrary::GetAdjacentVerticies(int Source)
+{
+	cout << "Adjacent vertex to " + to_string(Source) + " are: ";
+	for (int AdjacentVerticies : AdjacencyList[Source])
+	{
+		cout << AdjacentVerticies << " ";
+		return AdjacentVerticies;
+	}
+	cout << endl;
+}
+
+void GraphLibrary::GetVerticiesInGraph()
+{
+	cout << "Verticies in the graph: ";
+	for (int i = 0; i < AdjacencyList.size(); i++)
+	{
+		cout << i << " ";
+	}
+	cout << endl;
+}
+
+void GraphLibrary::GetEdgesInGraph()
+{
+	cout << "Edges in the graph: ";
+	for (int i = 0; i < AdjacencyList.size(); i++)
+	{
+		for (int j = 0; j < AdjacencyList[i].size(); j++)
+		{
+			cout << AdjacencyList[i][j] << " ";
 		}
 	}
 	cout << endl;

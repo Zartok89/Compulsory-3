@@ -65,27 +65,6 @@ void GeneralTreeLibrary::GeneratingRandomTree()
 	}
 }
 
-void GeneralTreeLibrary::GeneratingRandomTreeV2(shared_ptr<TreeNode> Root, int MaxDepth, int CurrentDepth)
-{
-	// Stop recursion when the maximum depth is reached.
-	if (CurrentDepth >= MaxDepth)
-	{
-		return;
-	}
-
-	int numChildren = std::rand() % 4; // Generate a random number of children (0 to 3 in this example).
-
-	for (int i = 0; i < numChildren; ++i)
-	{
-		// Create a new child node and add it to the current root.
-		shared_ptr<TreeNode> Child = AddRandomNode(Root);
-		Root->Children.push_back(Child);
-
-		// Recursively generate the subtree for the child.
-		GeneratingRandomTreeV2(Child, MaxDepth, CurrentDepth + 1);
-	}
-}
-
 void GeneralTreeLibrary::DeleteNode(shared_ptr<TreeNode> RootNode, int NodeToDeleteFrom)
 {
 	if (RootNode->Children.empty() == false)

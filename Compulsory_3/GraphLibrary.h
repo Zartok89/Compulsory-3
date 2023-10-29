@@ -1,4 +1,6 @@
 #pragma once
+#include <list>
+#include <map>
 #include <memory>
 #include <vector>
 
@@ -14,25 +16,22 @@ public:
 	/*Constructor*/
 	GraphLibrary(int AmountOfVerticies);
 
-	/*Member Functions*/
-	void NodeInformation();
-
 	/*Graph Operations*/
-	void InsertRandomNode(int MaximumVertexValueToInsert); //
-	void InsertSpesificNode(int VertexToInsert); //
-	void DeleteVertex(int VertexNodeToDelete);
+	void InsertRandomVertex(int MaximumVertexValueToInsert); //
+	void InsertSpesificVertex(int VertexToInsert); //
+	void DeleteVertex(int VertexToDelete);
 	void InsertEdge(int Source, int Destination); //
 	void DeleteEdge(int Source, int Destination); //
 
 	/*Graph Traversal Functions*/
-	void DepthFirstSearch();
-	void BreadthFirstSearch();
+	void DepthFirstSearch(int Source); //
+	void BreadthFirstSearch(int Source); //
 
 	/*Access Functions*/
-	void GetNodeInformation();
-	void GetAdjacentNodes();
-	void GetVerticiesInGraph();
-	void GetEdgesInGraph();
+	void GetVertexInformation(int Source);
+	int  GetAdjacentVerticies(int Source); //
+	void GetVerticiesInGraph(); //
+	void GetEdgesInGraph(); //
 
 	/*Query Functions*/
 	int GetSize(); //
@@ -42,4 +41,7 @@ public:
 	/*Print Function*/
 	void PrintGraph(); //
 	int RandomNumberGenerator(int MinNumber, int MaxNumber); //
+
+	/*Maps*/
+	map<int, bool> VertexVisited;
 };
